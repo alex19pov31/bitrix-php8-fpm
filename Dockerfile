@@ -1,4 +1,4 @@
-FROM  php:8.0.0beta2-fpm-alpine
+FROM  php:8-fpm-alpine
 LABEL maintainer="alex19pov31@gmail.com"
 
 RUN apk add tzdata; \
@@ -6,7 +6,9 @@ RUN apk add tzdata; \
 	[ -f /etc/localtime ] && rm /etc/localtime; \
 	ln -s /usr/share/zoneinfo/Europe/Moscow /etc/localtime && \
 	addgroup -g 1000 nginx && adduser -D -u 1000 -G nginx nginx && \
-	apk add curl wget git msmtp libpng-dev libzip-dev oniguruma-dev freetype libjpeg-turbo-dev libmcrypt-dev freetype-dev libcurl curl-dev libxml2-dev autoconf g++ make; \
+	apk add openssh curl wget git msmtp libpng-dev libzip-dev oniguruma-dev freetype libjpeg-turbo-dev libmcrypt-dev freetype-dev libcurl curl-dev libxml2-dev autoconf g++ make; \
+	pecl install -f xdebug && \
+	printf "\n" | pecl install mcrypt && \
 	docker-php-ext-configure gd && \
 	docker-php-ext-configure soap && \
 	docker-php-ext-configure pdo && \
